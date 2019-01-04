@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { fetchStream, editStream } from '../../actions';
+import { fetchStream, editStream } from '../../actions/streamActions';
 import StreamForm from './StreamForm';
 
 class StreamEdit extends Component {
@@ -23,10 +23,7 @@ class StreamEdit extends Component {
     return (
       <div>
         <h3>Edit Stream</h3>
-        <StreamForm
-          initialValues={initialValues}
-          onSubmit={this.onSubmit}
-        />
+        <StreamForm initialValues={initialValues} onSubmit={this.onSubmit} />
       </div>
     );
   }
