@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import Modal from '../Modal';
 import history from '../../history';
-import { fetchStream, deleteStream } from '../../actions';
+import { fetchStream, deleteStream } from '../../actions/streamActions';
 
 class StreamDelete extends Component {
   componentDidMount() {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { createStream } from '../../actions';
+import { createStream } from '../../actions/streamActions';
 import StreamForm from './StreamForm';
 
 class StreamCreate extends Component {
