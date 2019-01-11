@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { fetchStream, editStream } from '../../actions/streamActions';
 import StreamForm from './StreamForm';
+import requireAuth from '../requireAuth';
+import { fetchStream, editStream } from '../../actions/streamActions';
 
 class StreamEdit extends Component {
   componentDidMount() {
@@ -10,7 +11,6 @@ class StreamEdit extends Component {
   }
 
   onSubmit = formValues => {
-    console.log(formValues)
     this.props.editStream(this.props.match.params.id, formValues);
   };
 
@@ -37,4 +37,4 @@ const mapStateToProps = (state, ownProps) => {
 export default connect(
   mapStateToProps,
   { fetchStream, editStream }
-)(StreamEdit);
+)(requireAuth(StreamEdit));
