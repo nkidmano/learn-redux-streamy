@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import Modal from '../Modal';
 import history from '../../history';
+import requireAuth from '../requireAuth';
 import { fetchStream, deleteStream } from '../../actions/streamActions';
 
 class StreamDelete extends Component {
@@ -55,4 +56,4 @@ const mapStateToProps = (state, ownProps) => {
 export default connect(
   mapStateToProps,
   { fetchStream, deleteStream }
-)(StreamDelete);
+)(requireAuth(StreamDelete));

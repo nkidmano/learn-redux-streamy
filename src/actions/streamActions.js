@@ -1,17 +1,27 @@
+import streams from '../apis/streams';
+import history from '../history';
 import {
   CREATE_STREAM,
-  FETCH_STREAMS,
+  FETCH_STREAMS_REQUEST,
+  FETCH_STREAMS_SUCCESS,
   FETCH_STREAM,
   DELETE_STREAM,
   EDIT_STREAM
 } from './types';
-import streams from '../apis/streams';
-import history from '../history';
+
+const fetchStreamRequest = () => ({
+  type: FETCH_STREAMS_REQUEST
+});
+
+const fetchStreamSuccess = streams => ({
+  type: FETCH_STREAMS_SUCCESS,
+  streams
+});
 
 export const fetchStreams = () => async dispatch => {
-  const response = await streams.get('/streams');
-
-  dispatch({ type: FETCH_STREAMS, payload: response.data });
+  dispatch(fetchStreamRequest());
+  const { data } = await streams.get('/streams');
+  dispatch(fetchStreamSuccess(data));
 };
 
 export const fetchStream = id => async dispatch => {

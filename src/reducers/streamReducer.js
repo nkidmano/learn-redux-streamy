@@ -3,22 +3,35 @@ import {
   CREATE_STREAM,
   FETCH_STREAMS,
   FETCH_STREAM,
+  FETCH_STREAMS_SUCCESS,
   DELETE_STREAM,
-  EDIT_STREAM
+  EDIT_STREAM,
+  FETCH_STREAMS_REQUEST
 } from '../actions/types';
 
-export default (state = {}, action) => {
+const initialState = {
+  items: {},
+  isFetching: false
+};
+
+export default (state = initialState, action) => {
   switch (action.type) {
-    case FETCH_STREAMS:
-      return { ...state, ..._.mapKeys(action.payload, 'id') };
+    case FETCH_STREAMS_REQUEST:
+      return { ...state, isFetching: true };
+    case FETCH_STREAMS_SUCCESS:
+      return {
+        ...state,
+        items: _.mapKeys(action.streams, 'id'),
+        isFetching: false
+      };
     case FETCH_STREAM:
-      return { ...state, [action.payload.id]: action.payload };
+      return { ...state, items: { [action.payload.id]: action.payload } };
     case CREATE_STREAM:
-      return { ...state, [action.payload.id]: action.payload };
+      return { ...state, items: { [action.payload.id]: action.payload } };
     case EDIT_STREAM:
-      return { ...state, [action.payload.id]: action.payload };
+      return { ...state, items: { [action.payload.id]: action.payload } };
     case DELETE_STREAM:
-      delete state[action.payload];
+      delete state.items[action.payload];
       return { ...state };
     default:
       return state;

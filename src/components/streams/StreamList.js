@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { fetchStreams } from '../../actions/streamActions';
+import requireLoading from '../requireLoading';
 
 class StreamList extends Component {
   componentDidMount() {
@@ -69,7 +70,7 @@ class StreamList extends Component {
 
 const mapStateToProps = state => {
   return {
-    streams: Object.values(state.streams),
+    streams: Object.values(state.streams.items),
     currentUserId: state.auth.userId,
     isSignedIn: state.auth.isSignedIn
   };
@@ -78,4 +79,4 @@ const mapStateToProps = state => {
 export default connect(
   mapStateToProps,
   { fetchStreams }
-)(StreamList);
+)(requireLoading(StreamList));
