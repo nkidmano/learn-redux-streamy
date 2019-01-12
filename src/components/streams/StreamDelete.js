@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import Modal from '../Modal';
@@ -7,6 +8,16 @@ import requireAuth from '../requireAuth';
 import { fetchStream, deleteStream } from '../../actions/streamActions';
 
 class StreamDelete extends Component {
+  static propTypes = {
+    stream: PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      title: PropTypes.string.isRequired,
+      description: PropTypes.string.isRequired
+    }),
+    fetchStream: PropTypes.func.isRequired,
+    deleteStream: PropTypes.func.isRequired
+  };
+
   componentDidMount() {
     this.props.fetchStream(this.props.match.params.id);
   }

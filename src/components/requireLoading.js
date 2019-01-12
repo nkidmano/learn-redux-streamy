@@ -5,13 +5,18 @@ import Loading from './Loading';
 export default ChildComponent => {
   class ComposedComponent extends Component {
     render() {
-      return <ChildComponent {...this.props} />;
+      const { dispatch, isFetching, ...rest } = this.props;
+
+      if (isFetching) {
+      }
+
+      return <ChildComponent {...rest} />;
     }
   }
 
-  const mapStateToProps = state => ({
-    isFetching: state.streams.isFetching
-  });
+  const mapStateToProps = state => {
+    return { isFetching: state.streams.isFetching };
+  };
 
   return connect(mapStateToProps)(ComposedComponent);
 };

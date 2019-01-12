@@ -1,11 +1,26 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { fetchStreams } from '../../actions/streamActions';
-import requireLoading from '../requireLoading';
+import Loading from '../Loading';
 
 class StreamList extends Component {
+  static propTypes = {
+    streams: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        title: PropTypes.string.isRequired,
+        description: PropTypes.string.isRequired
+      })
+    ),
+    currentUserId: PropTypes.string,
+    isSignedIn: PropTypes.bool,
+    isFetching: PropTypes.bool,
+    fetchStreams: PropTypes.func.isRequired
+  };
+
   componentDidMount() {
     this.props.fetchStreams();
   }
@@ -63,6 +78,7 @@ class StreamList extends Component {
         <h2>Stream</h2>
         <div className="ui celled list">{this.renderList()}</div>
         {this.renderCreate()}
+        {this.props.isFetching && <Loading />}
       </div>
     );
   }
@@ -72,11 +88,12 @@ const mapStateToProps = state => {
   return {
     streams: Object.values(state.streams.items),
     currentUserId: state.auth.userId,
-    isSignedIn: state.auth.isSignedIn
+    isSignedIn: state.auth.isSignedIn,
+    isFetching: state.streams.isFetching
   };
 };
 
 export default connect(
   mapStateToProps,
   { fetchStreams }
-)(requireLoading(StreamList));
+)(StreamList);

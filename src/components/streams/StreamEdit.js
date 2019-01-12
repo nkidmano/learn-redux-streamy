@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import StreamForm from './StreamForm';
@@ -6,6 +7,15 @@ import requireAuth from '../requireAuth';
 import { fetchStream, editStream } from '../../actions/streamActions';
 
 class StreamEdit extends Component {
+  static propTypes = {
+    stream: PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      title: PropTypes.string.isRequired,
+      description: PropTypes.string.isRequired
+    }),
+    fetchStream: PropTypes.func.isRequired
+  };
+
   componentDidMount() {
     this.props.fetchStream(this.props.match.params.id);
   }
