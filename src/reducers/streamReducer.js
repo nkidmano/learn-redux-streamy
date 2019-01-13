@@ -9,6 +9,8 @@ import {
   FETCH_STREAMS_REQUEST
 } from '../actions/types';
 
+import * as types from '../actions/types';
+
 const initialState = {
   items: {},
   isFetching: false
@@ -16,9 +18,9 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case FETCH_STREAMS_REQUEST:
+    case types.FETCH_STREAMS_REQUEST:
       return { ...state, isFetching: true };
-    case FETCH_STREAMS_SUCCESS:
+    case types.FETCH_STREAMS_SUCCESS:
       return {
         ...state,
         items: _.mapKeys(action.streams, 'id'),
@@ -26,8 +28,14 @@ export default (state = initialState, action) => {
       };
     case FETCH_STREAM:
       return { ...state, items: { [action.payload.id]: action.payload } };
-    case CREATE_STREAM:
-      return { ...state, items: { [action.payload.id]: action.payload } };
+    case types.CREATE_STREAM_REQUEST:
+      return { ...state, isFetching: true };
+    case types.CREATE_STREAM_SUCCESS:
+      return {
+        ...state,
+        items: { [action.payload.id]: action.payload },
+        isFetching: false
+      };
     case EDIT_STREAM:
       return { ...state, items: { [action.payload.id]: action.payload } };
     case DELETE_STREAM:

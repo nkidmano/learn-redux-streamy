@@ -9,19 +9,30 @@ import {
   EDIT_STREAM
 } from './types';
 
-const fetchStreamRequest = () => ({
-  type: FETCH_STREAMS_REQUEST
+import * as types from './types';
+
+const fetchStreamsRequest = () => ({
+  type: types.FETCH_STREAMS_REQUEST
 });
 
-const fetchStreamSuccess = streams => ({
-  type: FETCH_STREAMS_SUCCESS,
+const fetchStreamsSuccess = streams => ({
+  type: types.FETCH_STREAMS_SUCCESS,
   streams
 });
 
+const createStreamRequest = () => ({
+  type: types.CREATE_STREAM_REQUEST
+});
+
+const createStreamSuccess = stream => ({
+  type: types.CREATE_STREAM_REQUEST,
+  stream
+});
+
 export const fetchStreams = () => async dispatch => {
-  dispatch(fetchStreamRequest());
+  dispatch(fetchStreamsRequest());
   const { data } = await streams.get('/streams');
-  dispatch(fetchStreamSuccess(data));
+  dispatch(fetchStreamsSuccess(data));
 };
 
 export const fetchStream = id => async dispatch => {
@@ -31,10 +42,13 @@ export const fetchStream = id => async dispatch => {
 };
 
 export const createStream = formValues => async (dispatch, getState) => {
-  const { userId } = getState().auth;
-  const response = await streams.post('/streams', { ...formValues, userId });
+  dispatch(createStreamRequest());
 
-  dispatch({ type: CREATE_STREAM, payload: response.data });
+  const { userId } = getState().auth;
+  const { data } = await streams.post('/streams', { ...formValues, userId });
+
+  dispatch(createStreamSuccess(data));
+
   history.push('/');
 };
 

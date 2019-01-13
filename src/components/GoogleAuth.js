@@ -1,8 +1,16 @@
 import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { signIn, signOut, initGoogleAuth } from '../actions/authActions';
 
 class GoogleAuth extends Component {
+  static propTypes = {
+    isSignedIn: PropTypes.bool,
+    initGoogleAuth: PropTypes.func.isRequired,
+    signIn: PropTypes.func.isRequired,
+    signOut: PropTypes.func.isRequired
+  };
+
   componentDidMount() {
     this.props.initGoogleAuth();
   }
